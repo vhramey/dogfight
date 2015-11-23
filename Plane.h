@@ -29,6 +29,8 @@
 #define BOX_SIZE 20
 //#define PI 3.141592
 //*/
+#define CRASH_PENALTY 1000
+#define GROUND_LEVEL -50
 
 
 #include "MyVector.h"

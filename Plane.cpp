@@ -13,7 +13,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <GLUT/glut.h>
-//#include <windows.h>
 #include <iostream>
 
 Plane::Plane():target(0,0,0), globalTarget(0,0,0), targeted(0,0,0)
@@ -299,18 +298,20 @@ void Plane::update()
 
 	//printf("%f", dt);
 
-	dt = 1;
+  if(posY < GROUND_LEVEL) // Plane has crashed                                                                   
+    init();
 
-	think();
+  dt = 1;
 
-	updateVectors();
-    calcAccel();
-    calcVel();
-	calcPos();
-	calcAngles();
-	updateQM();
+  think();
 
-	setFitness();
+  updateVectors();
+  calcAccel();
+  calcVel();
+  calcPos();
+  calcAngles();
+  updateQM();
+  setFitness();
 }
 
 
@@ -711,8 +712,10 @@ void Plane::setFitness()
      fitness += coeff0*scalar; // fitness proportional to x
   }
   //*/
-  if( posY < -50 )
-  fitness += posY;
+  if( posY < GROUND_LEVEL )
+  {
+    fitness -= CRASH_PENALTY;
+  }
   //*/
 }
 
