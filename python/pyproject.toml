@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dogfight"
+version = "0.1.0"
+description = "Genetic evolution of neural networks that fly airplanes (Python port)"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "numpy>=1.21",
+    "pyyaml>=6.0",
+    "PyOpenGL>=3.1",
+]
+
+# The renderer uses PyOpenGL with GLUT (the same windowing/event toolkit the
+# original C++ program used). On macOS this yields a legacy/compatibility GL
+# context, which is required for the project's fixed-function rendering.
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0"]
+
+[project.scripts]
+dogfight = "dogfight.main:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["dogfight*"]
+
+[tool.setuptools.package-data]
+dogfight = ["../config/*.yaml", "../assets/**/*"]

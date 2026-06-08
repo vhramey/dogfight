@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+build/
+dist/
+population.npz
+best_genome.npz
+best_genome.meta.json
+hall_of_fame.npz
+metrics.csv
+metrics.jsonl
+.pytest_cache/

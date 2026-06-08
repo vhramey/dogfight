@@ -1,0 +1,107 @@
+simulation:
+  num_planes: 100
+  num_targets: 5
+  generation_time: 2000
+  reset_time: 1000000
+  target_inc_time: 100
+  ground_level: -50
+  use_batch_update: true
+  headless_workers: 0        # set >0 for parallel headless runs only
+
+genetic:
+  mutation_rate: 5
+  max_mutation: 1.0
+  crossover_rate: 70
+  tournament_size: 3
+  elitism: 2
+  seed: null
+  selection: map_elites      # tournament | novelty | map_elites | speciation
+  novelty_k: 10
+  novelty_weight: 0.3
+  map_elites_bins: [8, 8, 8]
+  speciation_threshold: 0.15
+  fitness_sharing_sigma: 0.1
+
+network:
+  kind: elman                # feedforward | elman | gru
+  num_inputs: 7
+  num_outputs: 4
+  num_hidden_layers: 5
+  neurons_per_hidden_layer: 30
+  output_mapping: tanh       # legacy | tanh
+  use_throttle_output: true
+  use_learned_shooting: true
+  sensors:
+    own_speed: true
+    body_velocity: true
+    angular_rates: true
+    altitude: true
+    distance_log: true
+    targeted_vector: true
+    opponent_relative: true
+    ammo_status: true
+
+fitness:
+  coeff_upright: 50.0
+  coeff_heading: 0.5
+  coeff_velocity: 0.01
+  lock_threshold: 0.999
+  crash_penalty: 1000.0
+  hit_reward: 10.0
+  kill_reward: 100.0
+  evasion_reward: 0.1
+  damage_penalty: 50.0
+  survival_reward: 0.01
+  shot_cost: 0.05
+  miss_penalty: 0.5
+
+physics:
+  max_flap_angle: 60.0
+  max_yaw_flap_angle: 10.0
+  max_thrust: 0.3
+  default_thrust: 0.25
+  gravity: 0.15
+  lift_constant: 0.8
+  kite_constant: 0.8
+  drag_constant: 0.8
+  flap_constant: 3.0
+
+combat:
+  enabled: true
+  max_health: 100.0
+  bullet_damage: 25.0
+  hit_radius: 2.0
+  magazine_size: 60
+  rounds_per_burst: 2
+  burst_cooldown_frames: 45
+  burst_frames_between_shots: 3
+  miss_check_frames: 50
+  hall_of_fame_size: 5
+  hall_of_fame_path: hall_of_fame.npz
+
+curriculum:
+  enabled: true
+  stages:
+    - name: chase
+      generations: 100
+    - name: evasion
+      generations: 50
+    - name: combat
+      generations: 50
+
+population:
+  initial_weights: null      # must match topology; null = random init
+  auto_save_every: 10
+  save_path: population.npz
+
+metrics:
+  enabled: true
+  log_path: metrics.csv
+  best_genome_path: best_genome.npz
+  log_json_path: metrics.jsonl
+
+render:
+  width: 640
+  height: 480
+  fov: 45.0
+  textures_dir: null
